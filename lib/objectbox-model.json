@@ -1,0 +1,84 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:1363855866394874640",
+      "lastPropertyId": "11:8302990038565693250",
+      "name": "SongEntity",
+      "properties": [
+        {
+          "id": "1:3515473954591334000",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8738682647193473431",
+          "name": "songId",
+          "indexId": "1:7773176647544837561",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "3:5727786205039306467",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "4:6397161080328650990",
+          "name": "artist",
+          "type": 9
+        },
+        {
+          "id": "5:8838740298305346235",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "6:4945185647809157456",
+          "name": "metronome",
+          "type": 6
+        },
+        {
+          "id": "7:4943066762812987102",
+          "name": "duration",
+          "type": 8
+        },
+        {
+          "id": "8:3999537917515274487",
+          "name": "trackCount",
+          "type": 6
+        },
+        {
+          "id": "9:6541298322907433254",
+          "name": "isDownloaded",
+          "type": 1
+        },
+        {
+          "id": "10:7691542497404068816",
+          "name": "sourcesJson",
+          "type": 9
+        },
+        {
+          "id": "11:8302990038565693250",
+          "name": "downloadSources",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:1363855866394874640",
+  "lastIndexId": "1:7773176647544837561",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
