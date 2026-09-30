@@ -82,6 +82,14 @@ class _WaveProgressBarState extends State<WaveProgressBar> {
   void didUpdateWidget(covariant WaveProgressBar oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    // Si el reproductor volvió al inicio (progreso cercano a 0), liberamos el bloqueo inmediatamente
+    if (widget.progress == 0.0 && oldWidget.progress != 0.0) {
+      setState(() {
+        _lockedProgress = null;
+      });
+      return;
+    }
+
     if (_lockedProgress != null) {
       final diff = (widget.progress - _lockedProgress!).abs();
       if (diff < 0.005) {
@@ -91,6 +99,20 @@ class _WaveProgressBarState extends State<WaveProgressBar> {
       }
     }
   }
+
+  // @override
+  // void didUpdateWidget(covariant WaveProgressBar oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //
+  //   if (_lockedProgress != null) {
+  //     final diff = (widget.progress - _lockedProgress!).abs();
+  //     if (diff < 0.005) {
+  //       setState(() {
+  //         _lockedProgress = null;
+  //       });
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

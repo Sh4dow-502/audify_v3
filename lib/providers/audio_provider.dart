@@ -10,6 +10,9 @@ class AudioProvider extends ChangeNotifier {
   bool _init = false;
   AudioProvider(this._audioService);
 
+  bool _automaticReplay = false;
+  bool get automaticReplay => _automaticReplay;
+
   Duration _currentPosition = Duration.zero;
   Duration get currentPosition => _currentPosition;
   Timer? _ticker;
@@ -50,6 +53,10 @@ class AudioProvider extends ChangeNotifier {
       final total = totalDuration;
 
       if (total > Duration.zero && pos >= (total - _safetyMargin)) {
+        if (automaticReplay) {
+          restart();
+          return;
+        }
         _stopPositionTicker();
 
         // 1. Pausamos C++ exactamente en el margen de seguridad
@@ -89,6 +96,10 @@ class AudioProvider extends ChangeNotifier {
 
     // Si arrastran el slider hasta el fondo, congelamos la posición un instante antes del final
     if (total > Duration.zero && targetPosition >= (total - _safetyMargin)) {
+      if (automaticReplay) {
+        restart();
+        return;
+      }
       targetPosition = total - _safetyMargin;
       _audioService.seekAll(targetPosition);
       _audioService.pauseAll();
@@ -150,6 +161,11 @@ class AudioProvider extends ChangeNotifier {
     _init = true;
 
     _startPositionTicker();
+    notifyListeners();
+  }
+
+  void setAutomaticReplay(bool value) {
+    _automaticReplay = value;
     notifyListeners();
   }
 
