@@ -6,7 +6,7 @@ part of 'theme.dart';
 FTypography _typography({required FColors colors, required bool touch}) =>
     FTypography(
       display: _display(colors: colors, touch: touch, fontFamily: 'Noto Sans'),
-      body: _body(colors: colors, touch: touch),
+      body: _body(colors: colors, touch: touch, fontFamily: 'Nunito Sans'),
     );
 
 /// The typographical tokens used for prominent text such as headings.

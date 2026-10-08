@@ -24,4 +24,7 @@ class CustomColors {
   static const Color lightYellow = Color(0xFFE8CC59);
   static const Color success = Color(0xff45FFAE);
   static const Color accentColor = Color(0xff7966FF);
+  static const Color pinkDrum = Color(0xffff7c9f);
+  static const Color blueVocals = Color(0xff9da7ff);
+  static const Color orangeGuitar = Color(0xffff9f5a);
 }

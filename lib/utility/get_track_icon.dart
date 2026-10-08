@@ -17,6 +17,8 @@ IconData getTrackIcon(String iconName) {
       return FLucideIcons.guitar;
     case 'metronome':
       return FLucideIcons.metronome;
+    case 'guide':
+      return FLucideIcons.audioWaveform;
     default:
       return FLucideIcons
           .audioWaveform; // Default icon if the name doesn't match

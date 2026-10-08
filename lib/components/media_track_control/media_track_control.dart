@@ -1,3 +1,5 @@
+import 'package:audify_v3/components/media_track_control/track_guide.dart';
+import 'package:audify_v3/components/media_track_control/track_metronome.dart';
 import 'package:audify_v3/components/track_control/track_control.dart';
 import 'package:audify_v3/models/song_entity.dart';
 import 'package:audify_v3/utility/order_tracks.dart';
@@ -19,11 +21,15 @@ class MediaTrackControl extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
-        spacing: 30,
+        spacing: 15,
         children: [
           ...songTracks.entries.map((track) {
             return TrackControl(trackName: track.key);
           }),
+          Divider(),
+          TrackMetronome(bpm: song.metronome),
+          TrackGuide(),
+          // TrackControl(trackName: "metronome"),
         ],
       ),
     );

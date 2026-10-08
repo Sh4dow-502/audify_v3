@@ -66,15 +66,19 @@ class ContainerSong extends StatelessWidget {
                   ),
                   if (song.isDownloaded)
                     Positioned(
-                      bottom: 0,
-                      right: 0,
+                      bottom: 1,
+                      right: 2,
                       child: Container(
-                        decoration: BoxDecoration(
-                          color: CustomColors.lightGreen,
-                          shape: .circle,
-                        ),
+                        // decoration: BoxDecoration(
+                        //   color: CustomColors.lightGreen,
+                        //   shape: .circle,
+                        // ),
                         padding: .all(4),
-                        child: Icon(FLucideIcons.arrowDownToLine, size: 10),
+                        child: Icon(
+                          FLucideIcons.checkCircle,
+                          size: 10,
+                          color: CustomColors.lightGreen,
+                        ),
                       ),
                     ),
                 ],
@@ -89,7 +93,7 @@ class ContainerSong extends StatelessWidget {
                       song.title,
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                       ),
                       maxLines: 1,
                       textAlign: TextAlign.start,

@@ -26,6 +26,7 @@ class ProgressPlaying extends StatelessWidget {
         mainAxisSize: .min,
         children: [
           WaveProgressBar(
+            primaryColor: context.theme.colors.primary,
             progress: progressPercent,
             duration: totalDur,
             secondaryColor: context.theme.colors.secondary,

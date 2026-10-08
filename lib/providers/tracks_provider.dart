@@ -9,12 +9,20 @@ class TracksProvider extends ChangeNotifier {
 
   final Map<String, TrackState> _trackStates = {};
 
+  double _voicesVolume = 1.0;
+  double get voicesVolume => _voicesVolume;
+
+  bool _voicesMuted = false;
+  bool get voicesMuted => _voicesMuted;
+
   /// Inicializa o resetea el estado de una lista de tracks para una nueva canción.
   void initTracks(List<String> trackIds) {
     _trackStates.clear();
     for (var id in trackIds) {
       _trackStates[id] = const TrackState(volume: 1.0, isMuted: false);
     }
+    _voicesVolume = 1.0;
+    setVoicesVolume(_voicesVolume);
     notifyListeners();
   }
 
@@ -30,6 +38,20 @@ class TracksProvider extends ChangeNotifier {
 
     _trackStates[trackId] = newState;
     _audioService.setTrackVolume(trackId, newState.effectiveVolume);
+    notifyListeners();
+  }
+
+  void setVoicesVolume(double volume) {
+    _audioService.setVoicesVolume(volume);
+    _voicesVolume = volume;
+    notifyListeners();
+  }
+
+  void toggleMuteVoices() {
+    _voicesMuted = !_voicesMuted;
+
+    _audioService.setVoicesVolume(_voicesMuted ? 0.0 : _voicesVolume);
+
     notifyListeners();
   }
 

@@ -1,5 +1,6 @@
 import 'package:audify_v3/models/song_entity.dart';
 import 'package:audify_v3/providers/audio_provider.dart';
+import 'package:audify_v3/screens/structure_screen/structure_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -50,7 +51,14 @@ class SongSettings extends StatelessWidget {
                 size: 18,
               ),
               suffix: const Icon(FLucideIcons.chevronRight),
-              onPress: () {},
+              onPress: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => StructureScreen(song: song),
+                  ),
+                );
+              },
             ),
             const Spacer(),
             FButton(onPress: () {}, child: Text("Guardar")),

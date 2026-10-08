@@ -1,8 +1,9 @@
 import 'package:audify_v3/models/song_entity.dart';
 import 'package:audify_v3/providers/controls_provider.dart';
-import 'package:audify_v3/screens/player/components/metronome_control.dart';
+import 'package:audify_v3/screens/structure_screen/structure_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:provider/provider.dart';
 
 class MetronomeButton extends StatelessWidget {
@@ -16,12 +17,10 @@ class MetronomeButton extends StatelessWidget {
     final colorMetronome = activeMetronome ? colors.primary : colors.secondary;
     return GestureDetector(
       onTap: () {
-        showFSheet(
-          context: context,
-          builder: (context) => MetronomeControl(song: song),
-          side: .btt,
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => StructureScreen(song: song)),
         );
-        // context.read<ControlsProvider>().toggleMetronome();
       },
       child: !activeMetronome
           ? _DisableMetronome()
@@ -32,10 +31,10 @@ class MetronomeButton extends StatelessWidget {
                 color: colorMetronome.withValues(alpha: 0.25),
               ),
               padding: .all(10),
-              child: Icon(
-                FLucideIcons.metronome,
-                color: colorMetronome,
+              child: HugeIcon(
+                icon: HugeIcons.strokeRoundedStraightEdge,
                 size: 20,
+                color: colorMetronome,
               ),
             ),
     );

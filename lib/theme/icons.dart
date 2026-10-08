@@ -4,48 +4,26 @@ part of 'theme.dart';
 ///
 /// Icon tokens for the generated theme.
 FIcons _icons() => FIcons(
-  arrowLeft: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedArrowLeft01, size: null),
-  calendar: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedCalendar03, size: null),
-  check: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedTick02, size: null),
-  chevronDown: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedArrowDown01, size: null),
-  chevronLeft: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedArrowLeft01, size: null),
-  chevronRight: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedArrowRight01, size: null),
-  chevronUp: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedArrowUp01, size: null),
-  chevronsUpDown: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedUnfoldMore, size: null),
-  circleAlert: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedAlertCircle, size: null),
-  clock4: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedClock01, size: null),
-  ellipsis: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedMoreHorizontal, size: null),
-  error: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedAlertCircle, size: null),
-  eye: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedView, size: null),
-  eyeClosed: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedViewOff, size: null),
-  gripHorizontal: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedDragDropHorizontal, size: null),
-  gripVertical: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedDragDropVertical, size: null),
-  loader: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedLoading03, size: null),
-  loaderCircle: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedLoading03, size: null),
-  loaderPinwheel: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedLoaderPinwheel, size: null),
-  search: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedSearch01, size: null),
-  userRound: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedUserCircle, size: null),
-  x: (_, {semanticsLabel}) =>
-      HugeIcon(icon: HugeIcons.strokeRoundedCancel01, size: null),
+  arrowLeft: FIcons.iconData(FLucideIcons.arrowLeft),
+  calendar: FIcons.iconData(FLucideIcons.calendar),
+  check: FIcons.iconData(FLucideIcons.check),
+  chevronDown: FIcons.iconData(FLucideIcons.chevronDown),
+  chevronLeft: FIcons.iconData(FLucideIcons.chevronLeft),
+  chevronRight: FIcons.iconData(FLucideIcons.chevronRight),
+  chevronUp: FIcons.iconData(FLucideIcons.chevronUp),
+  chevronsUpDown: FIcons.iconData(FLucideIcons.chevronsUpDown),
+  circleAlert: FIcons.iconData(FLucideIcons.circleAlert),
+  clock4: FIcons.iconData(FLucideIcons.clock4),
+  ellipsis: FIcons.iconData(FLucideIcons.ellipsis),
+  error: FIcons.iconData(FLucideIcons.circleAlert),
+  eye: FIcons.iconData(FLucideIcons.eye),
+  eyeClosed: FIcons.iconData(FLucideIcons.eyeClosed),
+  gripHorizontal: FIcons.iconData(FLucideIcons.gripHorizontal),
+  gripVertical: FIcons.iconData(FLucideIcons.gripVertical),
+  loader: FIcons.iconData(FLucideIcons.loader),
+  loaderCircle: FIcons.iconData(FLucideIcons.loaderCircle),
+  loaderPinwheel: FIcons.iconData(FLucideIcons.loaderPinwheel),
+  search: FIcons.iconData(FLucideIcons.search),
+  userRound: FIcons.iconData(FLucideIcons.userRound),
+  x: FIcons.iconData(FLucideIcons.x),
 );

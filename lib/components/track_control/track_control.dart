@@ -30,72 +30,99 @@ class TrackControl extends StatelessWidget {
         : HugeIcons.strokeRoundedVolumeMute02;
 
     final varCond = trackState.isMuted ? 0.0 : 1.0;
+    final track = getTrackName(trackName);
+    final textStyles = context.theme.typography.body;
+    // final color = getTrackColor(trackName);
+    final color = context.theme.colors.primary;
+    // final colorDegradado = context.theme.colors.secondary;
+    final colorDegradado = color.withValues(alpha: 0.7);
 
-    return Column(
-      crossAxisAlignment: .start,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 0,
       children: [
-        // Text(
-        //   getTrackName(trackName),
-        //   style: context.theme.typography.body.xs.copyWith(
-        //     color: context.theme.colors.mutedForeground,
-        //   ),
-        // ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FTooltip(
-              tipBuilder: (context, _) => Text(getTrackName(trackName)),
-              child: Icon(
-                getTrackIcon(trackName),
-                color: trackState.isMuted
-                    ? colors.mutedForeground
-                    : colors.foreground,
-              ),
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  Material(
-                    color: Colors.transparent,
-                    child: CustomGradientSlider(
-                      gradientColors: trackName == "metronome"
-                          ? [CustomColors.lightPurple, CustomColors.celeste]
-                          : [CustomColors.lightPurple, CustomColors.purple],
-                      dotColor: trackName == "metronome"
-                          ? CustomColors.celeste
-                          : colors.primary,
-                      value: trackState.volume,
-                      max: 1.0,
-                      min: 0.0,
-                      varCond: varCond,
-                      divisions: 100,
-                      trackHeight: 2,
-                      label: "${(trackState.volume * 100).toInt()}%",
-                      onChanged: (value) {
-                        provider.setTrackVolume(
-                          trackName,
-                          value.clamp(0.0, 1.0),
-                        );
-                      },
+        FTooltip(
+          tipBuilder: (context, _) => Text(getTrackName(trackName)),
+          child: Icon(
+            getTrackIcon(trackName),
+            color: trackState.isMuted
+                ? colors.mutedForeground
+                : colors.foreground,
+
+            size: 18,
+          ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 0,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 0,
+                ),
+                child: Row(
+                  mainAxisAlignment: .spaceBetween,
+                  children: [
+                    Text(
+                      track,
+                      style: textStyles.xs.copyWith(
+                        fontWeight: .w700,
+                        color: trackState.isMuted
+                            ? colors.mutedForeground
+                            : colors.foreground,
+                        height: 0.1,
+                      ),
                     ),
-                  ),
-                ],
+                    Text(
+                      "${(trackState.volume * 100).toInt()}%",
+                      style: textStyles.xs2.copyWith(
+                        color: context.theme.colors.mutedForeground,
+                        height: 0.1,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            FButton.icon(
-              onPress: () {
-                provider.toggleMuteTrack(trackName);
-              },
-              child: HugeIcon(
-                icon: trackState.isMuted
-                    ? HugeIcons.strokeRoundedVolumeOff
-                    : iconForVolume,
-                size: 18,
+              Material(
+                color: Colors.transparent,
+                borderOnForeground: false,
+                child: CustomGradientSlider(
+                  // gradientColors: [color, color],
+                  gradientColors: trackName == "metronome"
+                      ? [CustomColors.lightPurple, CustomColors.lightPurple]
+                      : [colorDegradado, color],
+                  dotColor: trackName == "metronome"
+                      ? CustomColors.celeste
+                      : colors.primary,
+                  value: trackState.volume.clamp(0.0, 2.0),
+                  max: 2.0,
+                  min: 0.0,
+                  varCond: varCond,
+                  divisions: 100,
+                  trackHeight: 2,
+                  // label: "${(trackState.volume * 100).toInt()}%",
+                  onChanged: (value) {
+                    provider.setTrackVolume(trackName, value.clamp(0.0, 2.0));
+                  },
+                ),
               ),
-              // child: Icon(FLucideIcons.volume2),
-            ),
-          ],
+            ],
+          ),
+        ),
+        FButton.icon(
+          onPress: () {
+            provider.toggleMuteTrack(trackName);
+          },
+          child: HugeIcon(
+            icon: trackState.isMuted
+                ? HugeIcons.strokeRoundedVolumeOff
+                : iconForVolume,
+            size: 18,
+          ),
+          // child: Icon(FLucideIcons.volume2),
         ),
       ],
     );

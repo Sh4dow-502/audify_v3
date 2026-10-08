@@ -9,7 +9,14 @@ import 'package:provider/provider.dart';
 
 class PlayerControl extends StatelessWidget {
   final SongEntity song;
-  const PlayerControl({super.key, required this.song});
+  final bool showMetronome;
+  final bool showSpeedControl;
+  const PlayerControl({
+    super.key,
+    required this.song,
+    this.showMetronome = true,
+    this.showSpeedControl = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +30,14 @@ class PlayerControl extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         // spacing: 20,
         children: [
           // const SizedBox(width: 3),
-          MetronomeButton(song: song),
+          if (showMetronome) MetronomeButton(song: song),
           // const SizedBox(width: 5),
           Row(
+            mainAxisAlignment: .spaceBetween,
             children: [
               FButton.icon(
                 onPress: hasReward ? () => provider.seekRelative(-5) : null,
@@ -65,7 +73,7 @@ class PlayerControl extends StatelessWidget {
                         ? HugeIcons.strokeRoundedPause
                         : HugeIcons.strokeRoundedPlay,
                     size: 35,
-                    color: context.theme.colors.foreground,
+                    // color: context.theme.colors.foreground,
                   ),
                 ),
               ),
@@ -83,7 +91,8 @@ class PlayerControl extends StatelessWidget {
               ),
             ],
           ),
-          SpeedControl(),
+
+          if (showSpeedControl) SpeedControl(),
           // const SizedBox(width: 3),
         ],
       ),

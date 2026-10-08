@@ -48,6 +48,8 @@ dependencies:
   step_progress: ^2.7.1
   forui_phosphor: ^0.26.1
   hugeicons: ^1.1.7
+  uuid: ^4.6.0
+  capitalize: ^0.0.2
 
 dev_dependencies:
   flutter_test:
@@ -94,7 +96,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/voices/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

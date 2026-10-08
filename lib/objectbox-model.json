@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:1363855866394874640",
-      "lastPropertyId": "11:8302990038565693250",
+      "lastPropertyId": "13:3293255207821714306",
       "name": "SongEntity",
       "properties": [
         {
@@ -64,6 +64,16 @@
         {
           "id": "11:8302990038565693250",
           "name": "downloadSources",
+          "type": 9
+        },
+        {
+          "id": "12:7891050817208784228",
+          "name": "voicesJson",
+          "type": 9
+        },
+        {
+          "id": "13:3293255207821714306",
+          "name": "voiceEventsJson",
           "type": 9
         }
       ],

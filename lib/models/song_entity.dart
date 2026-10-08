@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:audify_v3/models/voice_event.dart';
+import 'package:audify_v3/models/voice_model.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -21,6 +23,8 @@ class SongEntity {
   /// JSON string con paths locales
   String sourcesJson;
   String downloadSources;
+  String voicesJson;
+  String voiceEventsJson;
 
   SongEntity({
     this.id = 0,
@@ -33,36 +37,31 @@ class SongEntity {
     required this.trackCount,
     required this.sourcesJson,
     required this.downloadSources,
+    required this.voicesJson,
+    required this.voiceEventsJson,
     this.isDownloaded = false,
   });
 
-  // Map<String, String> get sources {
-  //   try {
-  //     if (sourcesJson.isEmpty) return {};
-  //     return jsonDecode(sourcesJson);
-  //   } catch (e) {
-  //     return {};
-  //   }
-  // }
+  List<VoiceEvent> get voiceEvents {
+    try {
+      if (voiceEventsJson.isEmpty) return [];
 
-  // Map<String, Map<String, dynamic>> get sources {
-  //   try {
-  //     if (sourcesJson.isEmpty) return {};
-  //     final decoded = jsonDecode(sourcesJson);
-  //     if (decoded is Map) {
-  //       // Forzamos a que tanto la clave como el valor sean String de forma segura
-  //       return decoded.map(
-  //         (key, value) => MapEntry(key.toString(), value.toString()),
-  //       );
-  //     }
-  //     return {};
-  //   } catch (e) {
-  //     print(
-  //       'Error al decodificar sourcesJson: $e',
-  //     ); // Esto te dirá si había un error real
-  //     return {};
-  //   }
-  // }
+      final decoded = jsonDecode(voiceEventsJson);
+
+      if (decoded is! List) return [];
+
+      return decoded
+          .map((item) => VoiceEvent.fromJson(Map<String, dynamic>.from(item)))
+          .toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  set voiceEvents(List<VoiceEvent> value) {
+    voiceEventsJson = jsonEncode(value.map((event) => event.toJson()).toList());
+  }
+
   Map<String, Map<String, dynamic>> get sources {
     try {
       if (sourcesJson.isEmpty) return {};
@@ -76,9 +75,31 @@ class SongEntity {
       }
       return {};
     } catch (e) {
-      print(
-        'Error al decodificar sourcesJson: $e',
-      ); // Esto te dirá si había un error real
+      return {};
+    }
+  }
+
+  set voices(Map<String, VoiceModel> value) {
+    voicesJson = jsonEncode(
+      value.map((key, voice) => MapEntry(key, voice.toJson())),
+    );
+  }
+
+  Map<String, VoiceModel> get voices {
+    try {
+      if (voicesJson.isEmpty) return {};
+
+      final decoded = jsonDecode(voicesJson);
+
+      if (decoded is! Map) return {};
+
+      return decoded.map<String, VoiceModel>(
+        (key, value) => MapEntry(
+          key.toString(),
+          VoiceModel.fromJson(Map<String, dynamic>.from(value)),
+        ),
+      );
+    } catch (e) {
       return {};
     }
   }
@@ -95,9 +116,6 @@ class SongEntity {
       }
       return {};
     } catch (e) {
-      print(
-        'Error al decodificar downloadSources: $e',
-      ); // Esto te dirá si había un error real
       return {};
     }
   }
@@ -130,6 +148,8 @@ class SongEntity {
       trackCount: json['trackcount'] ?? json['trackCount'] ?? 0,
       sourcesJson: encodedSources,
       downloadSources: json['downloadSources'] ?? '',
+      voicesJson: json['voicesJson'] ?? '',
+      voiceEventsJson: json['voiceEventsJson'] ?? '',
       isDownloaded: json['isDownloaded'] ?? false,
     );
   }

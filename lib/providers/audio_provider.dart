@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audify_v3/models/voice_event.dart';
 import 'package:audify_v3/services/audio_service.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,11 @@ class AudioProvider extends ChangeNotifier {
 
   bool _automaticReplay = false;
   bool get automaticReplay => _automaticReplay;
+
+  List<VoiceEvent> _voiceEvents = [];
+  int _nextVoiceEventIndex = 0;
+
+  List<VoiceEvent> get voiceEvents => _voiceEvents;
 
   Duration _currentPosition = Duration.zero;
   Duration get currentPosition => _currentPosition;
@@ -43,12 +49,51 @@ class AudioProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setVoiceEvents(List<VoiceEvent> events) {
+    debugPrint(
+      'AudioProvider: setVoiceEvents called with ${events.length} events',
+    );
+    _voiceEvents = [...events]
+      ..sort((a, b) => a.position.compareTo(b.position));
+
+    _nextVoiceEventIndex = 0;
+    notifyListeners();
+  }
+
+  void _checkVoiceEvents(Duration position) {
+    while (_nextVoiceEventIndex < _voiceEvents.length &&
+        position >= _voiceEvents[_nextVoiceEventIndex].position) {
+      final event = _voiceEvents[_nextVoiceEventIndex];
+
+      print(
+        "REPRODUCIENDO VOZ: ${event.voice.name}, id: ${event.voice.id} en ${event.position.inMilliseconds} ms",
+      );
+      _audioService.playVoice(event.voice.name.toLowerCase());
+
+      _nextVoiceEventIndex++;
+    }
+  }
+
+  void _updateNextVoiceEvent(Duration position) {
+    _nextVoiceEventIndex = _voiceEvents.indexWhere(
+      (event) => event.position > position,
+    );
+
+    if (_nextVoiceEventIndex == -1) {
+      _nextVoiceEventIndex = _voiceEvents.length;
+    }
+  }
+
   void _startPositionTicker() {
     _ticker?.cancel();
-    _ticker = Timer.periodic(const Duration(milliseconds: 200), (_) async {
+
+    _ticker = Timer.periodic(const Duration(milliseconds: 30), (_) async {
       if (!isPlaying) return;
 
       final pos = await _audioService.getPosition();
+
+      // 🔊 Revisar eventos de voz
+      _checkVoiceEvents(pos);
 
       final total = totalDuration;
 
@@ -57,23 +102,56 @@ class AudioProvider extends ChangeNotifier {
           restart();
           return;
         }
+
         _stopPositionTicker();
 
-        // 1. Pausamos C++ exactamente en el margen de seguridad
         _audioService.seekAll(total - _safetyMargin);
+
         _audioService.pauseAll();
-        // _stopPositionTicker();
-        // pauseAll();
-        // _audioService.pauseAll(); // Pausamos directo en C++
-        _currentPosition = total; // Forzamos la UI a mostrar final completo
+
+        _currentPosition = total;
         isPlaying = false;
+
         notifyListeners();
         return;
       }
+
       _currentPosition = pos;
       notifyListeners();
     });
   }
+
+  // void _startPositionTicker() {
+  //   _ticker?.cancel();
+  //   _ticker = Timer.periodic(const Duration(milliseconds: 200), (_) async {
+  //     if (!isPlaying) return;
+  //
+  //     final pos = await _audioService.getPosition();
+  //
+  //     final total = totalDuration;
+  //
+  //     if (total > Duration.zero && pos >= (total - _safetyMargin)) {
+  //       if (automaticReplay) {
+  //         restart();
+  //         return;
+  //       }
+  //       _stopPositionTicker();
+  //
+  //       // 1. Pausamos C++ exactamente en el margen de seguridad
+  //       _audioService.seekAll(total - _safetyMargin);
+  //       _audioService.pauseAll();
+  //       // _stopPositionTicker();
+  //       // pauseAll();
+  //       // _audioService.pauseAll(); // Pausamos directo en C++
+  //       _currentPosition = total; // Forzamos la UI a mostrar final completo
+  //       isPlaying = false;
+  //       notifyListeners();
+  //       return;
+  //     }
+  //     _currentPosition = pos;
+  //     notifyListeners();
+  //   });
+  // }
 
   void _stopPositionTicker() {
     _ticker?.cancel();
@@ -82,6 +160,8 @@ class AudioProvider extends ChangeNotifier {
   void pauseAll() {
     _audioService.pauseAll();
     _stopPositionTicker();
+    isPlaying = false;
+    notifyListeners();
   }
 
   void playAll() {
@@ -101,6 +181,7 @@ class AudioProvider extends ChangeNotifier {
         return;
       }
       targetPosition = total - _safetyMargin;
+      _updateNextVoiceEvent(targetPosition);
       _audioService.seekAll(targetPosition);
       _audioService.pauseAll();
       _currentPosition = total; // Para visualmente renderizar la barra llena
@@ -109,6 +190,8 @@ class AudioProvider extends ChangeNotifier {
       notifyListeners();
       return;
     }
+
+    _updateNextVoiceEvent(targetPosition);
 
     _audioService.seekAll(targetPosition);
     _currentPosition = targetPosition;
@@ -153,16 +236,33 @@ class AudioProvider extends ChangeNotifier {
 
   void restart() {
     debugPrint("Reiniciando reproducción");
+
     _audioService.seekAll(Duration.zero);
     _audioService.resumeAll();
 
     _currentPosition = Duration.zero;
+
+    _nextVoiceEventIndex = 0;
+
     isPlaying = true;
     _init = true;
 
     _startPositionTicker();
     notifyListeners();
   }
+
+  // void restart() {
+  //   debugPrint("Reiniciando reproducción");
+  //   _audioService.seekAll(Duration.zero);
+  //   _audioService.resumeAll();
+  //
+  //   _currentPosition = Duration.zero;
+  //   isPlaying = true;
+  //   _init = true;
+  //
+  //   _startPositionTicker();
+  //   notifyListeners();
+  // }
 
   void setAutomaticReplay(bool value) {
     _automaticReplay = value;

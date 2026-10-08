@@ -12,6 +12,8 @@ String getTrackName(String track) {
       return 'Piano';
     case 'metronome':
       return 'Metrónomo';
+    case 'guide':
+      return 'Voz guia';
     default:
       return 'Otros';
   }

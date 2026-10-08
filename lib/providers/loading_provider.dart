@@ -114,6 +114,7 @@ class LoadingProvider extends ChangeNotifier {
         _currentTrackLoading = track.key;
         notifyListeners();
         await _audioService.loadTrack(track.key, track.value);
+        _audioService.setTrackVolume(track.key, 0.8);
 
         _tracksLoaded = List.from(_tracksLoaded)..add(track.key);
         await _loadingService.addTrackToDB(songId, track.key, track.value);

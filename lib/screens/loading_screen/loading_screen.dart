@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:audify_v3/models/song_entity.dart';
+import 'package:audify_v3/providers/audio_provider.dart';
 import 'package:audify_v3/providers/loading_provider.dart';
 import 'package:audify_v3/screens/player/components/loading_content.dart';
 import 'package:audify_v3/screens/player/player_screen.dart';
@@ -48,6 +49,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     _completionTimer = Timer(const Duration(milliseconds: 900), () {
       if (!mounted) return;
+
+      context.read<AudioProvider>().setVoiceEvents(widget.song.voiceEvents);
       setState(() => _showPlayer = true);
     });
   }

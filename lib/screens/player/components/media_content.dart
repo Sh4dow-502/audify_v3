@@ -15,7 +15,7 @@ class MediaContent extends StatelessWidget {
         MediaTrackControl(song: song),
         Expanded(child: const SizedBox.shrink()),
         ProgressPlaying(),
-        const SizedBox(height: 25),
+        const SizedBox(height: 5),
         PlayerControl(song: song),
         const SizedBox(height: 35),
       ],

@@ -22,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 1363855866394874640),
     name: 'SongEntity',
-    lastPropertyId: const obx_int.IdUid(11, 8302990038565693250),
+    lastPropertyId: const obx_int.IdUid(13, 3293255207821714306),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -89,6 +89,18 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(11, 8302990038565693250),
         name: 'downloadSources',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(12, 7891050817208784228),
+        name: 'voicesJson',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(13, 3293255207821714306),
+        name: 'voiceEventsJson',
         type: 9,
         flags: 0,
       ),
@@ -170,7 +182,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final categoryOffset = fbb.writeString(object.category);
         final sourcesJsonOffset = fbb.writeString(object.sourcesJson);
         final downloadSourcesOffset = fbb.writeString(object.downloadSources);
-        fbb.startTable(12);
+        final voicesJsonOffset = fbb.writeString(object.voicesJson);
+        final voiceEventsJsonOffset = fbb.writeString(object.voiceEventsJson);
+        fbb.startTable(14);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, songIdOffset);
         fbb.addOffset(2, titleOffset);
@@ -182,6 +196,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addBool(8, object.isDownloaded);
         fbb.addOffset(9, sourcesJsonOffset);
         fbb.addOffset(10, downloadSourcesOffset);
+        fbb.addOffset(11, voicesJsonOffset);
+        fbb.addOffset(12, voiceEventsJsonOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -230,6 +246,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final downloadSourcesParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 24, '');
+        final voicesJsonParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 26, '');
+        final voiceEventsJsonParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 28, '');
         final isDownloadedParam = const fb.BoolReader().vTableGet(
           buffer,
           rootOffset,
@@ -247,6 +269,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           trackCount: trackCountParam,
           sourcesJson: sourcesJsonParam,
           downloadSources: downloadSourcesParam,
+          voicesJson: voicesJsonParam,
+          voiceEventsJson: voiceEventsJsonParam,
           isDownloaded: isDownloadedParam,
         );
 
@@ -313,5 +337,15 @@ class SongEntity_ {
   /// See [SongEntity.downloadSources].
   static final downloadSources = obx.QueryStringProperty<SongEntity>(
     _entities[0].properties[10],
+  );
+
+  /// See [SongEntity.voicesJson].
+  static final voicesJson = obx.QueryStringProperty<SongEntity>(
+    _entities[0].properties[11],
+  );
+
+  /// See [SongEntity.voiceEventsJson].
+  static final voiceEventsJson = obx.QueryStringProperty<SongEntity>(
+    _entities[0].properties[12],
   );
 }
