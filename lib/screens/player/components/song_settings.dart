@@ -1,6 +1,7 @@
 import 'package:audify_v3/models/song_entity.dart';
 import 'package:audify_v3/providers/audio_provider.dart';
-import 'package:audify_v3/screens/structure_screen/structure_screen.dart';
+import 'package:audify_v3/providers/song_provider.dart';
+import 'package:audify_v3/theme/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -45,26 +46,61 @@ class SongSettings extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             FItem(
-              title: Text("Estructura de la canción"),
+              title: Text("Info"),
               prefix: HugeIcon(
-                icon: HugeIcons.strokeRoundedBlockchain04,
+                icon: HugeIcons.strokeRoundedInformationCircle,
                 size: 18,
               ),
               suffix: const Icon(FLucideIcons.chevronRight),
-              onPress: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => StructureScreen(song: song),
-                  ),
-                );
-              },
+              onPress: () {},
             ),
             const Spacer(),
+            ExportButton(song: song),
+            const SizedBox(height: 15),
             FButton(onPress: () {}, child: Text("Guardar")),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ExportButton extends StatefulWidget {
+  final SongEntity song;
+  const ExportButton({super.key, required this.song});
+
+  @override
+  State<ExportButton> createState() => _ExportButtonState();
+}
+
+class _ExportButtonState extends State<ExportButton> {
+  bool _exported = false;
+  @override
+  Widget build(BuildContext context) {
+    if (_exported) {
+      return FButton(
+        onPress: () {},
+        variant: .outline,
+        child: Text(
+          "Exportación completada",
+          style: context.theme.typography.body.xs.copyWith(
+            color: CustomColors.cyanGreen,
+          ),
+        ),
+      );
+    }
+    return FButton(
+      onPress: () async {
+        await context.read<SongProvider>().exportSongToPublicDocuments(
+          songId: widget.song.songId,
+          songName: widget.song.title,
+        );
+        setState(() {
+          _exported = true;
+        });
+      },
+      variant: .outline,
+      child: Text("Exportar canción"),
     );
   }
 }
